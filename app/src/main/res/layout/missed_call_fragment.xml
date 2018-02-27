@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ef5252">
+
+    <TextView
+        android:id="@+id/about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Miss X"
+        android:gravity="center_horizontal"
+        android:textSize="50dp"
+        android:textColor="#fff"/>
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Version 1.0.5"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:layout_below="@+id/about"
+        android:gravity="center_horizontal"
+        android:textColor="#fff"/>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/version"
+        android:text="This application is about missed calls. It reminds you of your missed calls at regular interval, set by you.  \n \n \n We are still working on features, and eager to listen your feedback."
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:textColor="#fff"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/prebuild"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pre-release"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:gravity="center_horizontal"
+        android:textColor="#fff"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

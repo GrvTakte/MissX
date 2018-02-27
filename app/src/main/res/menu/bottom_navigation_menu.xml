@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/nav_missed_calls"
+        android:title="About"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_call_missed"
+        />
+
+    <item
+        android:id="@+id/nav_reminders"
+        android:title="Reminders"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_memory"
+        />
+
+    <item
+        android:id="@+id/nav_notes"
+        android:title="Notes"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_speaker_notes"
+        />
+
+</menu>
