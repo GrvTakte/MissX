@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.gaurav.missreminder.database.DbContract;
 import com.gaurav.missreminder.database.DbHelper;
@@ -28,9 +27,9 @@ public class IncommingCallReceiver extends BroadcastReceiver {
     static boolean callReceived = false;
     String callerPhoneNumber;
 
-    SharedPreferences reminderPref;
-    SharedPreferences.Editor reminderEditor;
-    boolean showReminder;
+    SharedPreferences reminderPref, reminderOutgoingPref;
+    SharedPreferences.Editor reminderEditor, reminderOutgoing;
+    boolean showReminder, showReminderOutgoing;
 
     //multi calls
     static boolean isTalking = false;
@@ -42,10 +41,15 @@ public class IncommingCallReceiver extends BroadcastReceiver {
         reminderPref = mContext.getSharedPreferences("reminderPreference",0);
         reminderEditor = reminderPref.edit();
         showReminder = reminderPref.getBoolean("showReminder",true);
-        Log.d("missX:","onReceive ============================================================ ");
+
+
+        reminderOutgoingPref = mContext.getSharedPreferences("reminderOutgoinfPref",0);
+        reminderOutgoing = reminderOutgoingPref.edit();
+        showReminderOutgoing = reminderOutgoingPref.getBoolean("showOutgoingReminder",true);
+
+        Log.d("missX:","onReceive ============================================================");
 
         String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
-
 
         // If phone state "Rininging"
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
@@ -88,6 +92,8 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             }else{
                 isTalking = true;
             }
+            //
+
         }else{
             // not received
             Log.d("missX: ", " else:EXTRA_STATE_OFFHOOK ");
@@ -98,16 +104,28 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                 //
                 if(callReceived==true){
                     //
-                    Log.d("missX:","if: callReceived==true");
+                    Log.d("missX:","EXTRA_STATE_IDLE:if: callReceived==true");
 
                     if(ring == true) {
+                        Log.d("missX:","EXTRA_STATE_IDLE:if: callReceived==true :if: ring == true");
                         if (showReminder) {
                             onIncomingCallStarted(mContext, callerPhoneNumber);
                         }
+                    }else {
+                        Log.d("missX:","EXTRA_STATE_IDLE:if: callReceived==true :else: ring == true");
+
+                        if (showReminderOutgoing){
+                            // Display UI for remind/Ignore
+                            onIncomingCallStarted(mContext,callerPhoneNumber);
+                            Log.d("missX","ShowReminderOutgoing == true");
+                        }else {
+                            Log.d("missX","ShowReminderOutgoing == false");
+                        }
+
                     }
                     ring = false;
                 }else{
-                    Log.d("missX:","else: callReceived==true");
+                    Log.d("missX:","EXTRA_STATE_IDLE:else: callReceived==true");
 
                     if(ring == true){
                      //

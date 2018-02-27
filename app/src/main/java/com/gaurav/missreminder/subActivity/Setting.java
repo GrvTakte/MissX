@@ -21,11 +21,11 @@ import com.gaurav.missreminder.R;
 public class Setting extends AppCompatActivity {
 
     SeekBar seekBar;
-    SharedPreferences preferences, reminderPref;
-    SharedPreferences.Editor editor, reminderEditor;
+    SharedPreferences preferences, reminderPref, reminderOutgoingPref;
+    SharedPreferences.Editor editor, reminderEditor, remindOutgoingEditor;
     Button done;
 
-    Switch reminderSwitch, notesSwitch;
+    Switch reminderSwitch, remindSwitchOutgoing;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +39,16 @@ public class Setting extends AppCompatActivity {
         reminderPref = this.getSharedPreferences("reminderPreference",0);
         reminderEditor = reminderPref.edit();
 
+        //reminder outgoing prefernce
+        reminderOutgoingPref = this.getSharedPreferences("reminderOutgoinfPref",0);
+        remindOutgoingEditor = reminderOutgoingPref.edit();
+
         seekBar = (SeekBar) findViewById(R.id.seekbar);
         done = (Button) findViewById(R.id.setting_done);
 
         reminderSwitch = (Switch) findViewById(R.id.switch_remind_ignore);
         reminderSwitch.setChecked(true);
-        //notesSwitch = (Switch) findViewById(R.id.switch_notes);
+        remindSwitchOutgoing = (Switch) findViewById(R.id.switch_remind_ignore_outgoing);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -93,6 +97,8 @@ public class Setting extends AppCompatActivity {
         int position = preferences.getInt("interval",0);
         boolean showReminder = reminderPref.getBoolean("showReminder",true);
 
+        boolean showOutgoingReminder = reminderOutgoingPref.getBoolean("showOutgoingReminder",true);
+
         Log.d("missX ","pref "+position);
 
         if (position <= 0 ){
@@ -110,6 +116,12 @@ public class Setting extends AppCompatActivity {
             reminderSwitch.setChecked(true);
         }else{
             reminderSwitch.setChecked(false);
+        }
+
+        if (showOutgoingReminder){
+            remindSwitchOutgoing.setChecked(true);
+        }else {
+            remindSwitchOutgoing.setChecked(false);
         }
 
 
@@ -131,6 +143,21 @@ public class Setting extends AppCompatActivity {
                     reminderEditor.clear();
                     reminderEditor.putBoolean("showReminder",false);
                     reminderEditor.commit();
+                }
+            }
+        });
+
+        remindSwitchOutgoing.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    remindOutgoingEditor.clear();
+                    remindOutgoingEditor.putBoolean("showOutgoingReminder",true);
+                    remindOutgoingEditor.commit();
+                }else {
+                    remindOutgoingEditor.clear();
+                    remindOutgoingEditor.putBoolean("showOutgoingReminder",false);
+                    remindOutgoingEditor.commit();
                 }
             }
         });
