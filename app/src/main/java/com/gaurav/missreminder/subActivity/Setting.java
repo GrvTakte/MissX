@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -48,7 +49,14 @@ public class Setting extends AppCompatActivity {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress >0 && progress < 33){
+                if (progress <=0){
+                    seekBar.setProgress(0);
+                    editor.clear();
+                    editor.putInt("interval",0);
+                    Log.d("missX","0");
+                    editor.commit();
+                }
+                else if (progress >0 && progress < 33){
                     seekBar.setProgress(33);
                     editor.clear();
                     editor.putInt("interval",10);
@@ -64,6 +72,7 @@ public class Setting extends AppCompatActivity {
                     editor.putInt("interval",30);
                     editor.commit();
                 }
+                Log.d("missX","interval"+progress);
             }
 
             @Override
@@ -81,10 +90,15 @@ public class Setting extends AppCompatActivity {
     }
 
     private void checkSeekBarStatus(){
-        int position = preferences.getInt("interval",5);
+        int position = preferences.getInt("interval",0);
         boolean showReminder = reminderPref.getBoolean("showReminder",true);
 
-        if (position<=33){
+        Log.d("missX ","pref "+position);
+
+        if (position <= 0 ){
+            seekBar.setProgress(0);
+        }
+        else if (position<=33){
             seekBar.setProgress(33);
         }else if(position >33 && position <=66){
             seekBar.setProgress(66);

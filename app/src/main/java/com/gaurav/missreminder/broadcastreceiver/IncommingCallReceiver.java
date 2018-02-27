@@ -32,6 +32,9 @@ public class IncommingCallReceiver extends BroadcastReceiver {
     SharedPreferences.Editor reminderEditor;
     boolean showReminder;
 
+    //multi calls
+    static boolean isTalking = false;
+
     @Override
     public void onReceive(final Context mContext, Intent intent) {
 
@@ -65,6 +68,17 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             // received
             Log.d("missX: ", " if:EXTRA_STATE_OFFHOOK ");
             callReceived = true;
+
+            // Multi Call
+            // An onGoing call and more calls coming
+            if(isTalking){
+                Log.d("missX: ", "onReceive: "+callerPhoneNumber);
+
+            }else{
+                isTalking = true;
+            }
+
+
         }else{
             // not received
             Log.d("missX: ", " else:EXTRA_STATE_OFFHOOK ");
@@ -115,6 +129,8 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             }
             //
             callReceived = false;
+            //
+            isTalking = false;
         }
         /*
         // If phone is Idle

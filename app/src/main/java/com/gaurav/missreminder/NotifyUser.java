@@ -63,6 +63,10 @@ public class NotifyUser extends Service {
             preferences = this.getSharedPreferences("notificationSetting",0);
             int addinterval = preferences.getInt("interval",5);
 
+            if (addinterval <=0 ){
+                addinterval = 5;
+            }
+
             if (mTimer != null)
                 mTimer.cancel();
             else
