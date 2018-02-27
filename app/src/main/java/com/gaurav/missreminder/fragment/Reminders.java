@@ -140,11 +140,13 @@ public class Reminders extends Fragment {
             while (cursor.moveToNext()){
                 String number;
                 int id;
+                String name;
 
                 number = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_NUMBER));
                 id = cursor.getInt(cursor.getColumnIndex("id"));
+                name = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_NAME));
                // Log.d("database List:",""+id+" "+number);
-                list.add(new MissedCallModel(id,number));
+                list.add(new MissedCallModel(id,number,name));
             }
             cursor.close();
             dbHelper.close();

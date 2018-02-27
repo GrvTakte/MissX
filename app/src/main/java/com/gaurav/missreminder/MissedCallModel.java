@@ -9,10 +9,20 @@ import com.gaurav.missreminder.fragment.MissedCall;
 public class MissedCallModel {
     private int id;
     private String number;
+    private String name;
 
-    public MissedCallModel(int id, String number){
+    public MissedCallModel(int id, String number, String name){
         this.setId(id);
         this.setNumber(number);
+        this.setName(name);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {

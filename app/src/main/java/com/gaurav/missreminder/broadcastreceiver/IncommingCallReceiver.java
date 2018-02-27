@@ -4,10 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gaurav.missreminder.database.DbContract;
 import com.gaurav.missreminder.database.DbHelper;
@@ -86,9 +90,11 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                      //
                         Log.d("missX:","if: ring==true");
                         String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                        String name = getName(number,mContext);
+                        //Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
                         DbHelper dbHelper = new DbHelper(mContext);
                         SQLiteDatabase database = dbHelper.getWritableDatabase();
-                        dbHelper.saveNumber(number, database);
+                        dbHelper.saveNumber(number, name, database);
                         dbHelper.close();
                         //Log.d("Inside If: ", ""+callReceived);
 
@@ -134,9 +140,25 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             Log.d("Else: ", ""+"EXTRA_STATE_IDLE");
         }
         */
+    }
 
+    private String getName(String number, Context context){
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI,Uri.encode(number));
+        String[] projection = new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME};
 
+        String contactName ="";
+        Cursor cursor = context.getContentResolver().query(uri,projection,null,null,null);
 
+        if (cursor.getCount()>0){
+            if (cursor.moveToNext()){
+                contactName = cursor.getString(0);
+                return contactName;
+            }else {
+                return "New Contact";
+            }
+        }else {
+            return "New Contact";
+        }
     }
 
     protected void onIncomingCallStarted(Context ctx, String number){}

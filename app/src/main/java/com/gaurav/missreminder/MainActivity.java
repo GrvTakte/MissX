@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MainActivity mainActivity;
     public static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 100;
-    private static final String[] PERMISSION_REQUIURED = {Manifest.permission.READ_PHONE_STATE};
+    private static final String[] PERMISSION_REQUIURED = {Manifest.permission.READ_PHONE_STATE,Manifest.permission.READ_CONTACTS};
 
     public Context getContext(){
         return context;
