@@ -69,16 +69,25 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             Log.d("missX: ", " if:EXTRA_STATE_OFFHOOK ");
             callReceived = true;
 
+            //TODO:
             // Multi Call
             // An onGoing call and more calls coming
             if(isTalking){
                 Log.d("missX: ", "onReceive: "+callerPhoneNumber);
-
+                /*
+                String name = getName(callerPhoneNumber,mContext);
+                String number = callerPhoneNumber;
+                DbHelper dbHelper = new DbHelper(mContext);
+                SQLiteDatabase database = dbHelper.getWritableDatabase();
+                dbHelper.saveNumber(number, name, database);
+                dbHelper.close();
+                Intent intent1 = new Intent(DbContract.UPDATE_UI_FILTER);
+                mContext.sendBroadcast(intent1);
+                */
+                isTalking = false;
             }else{
                 isTalking = true;
             }
-
-
         }else{
             // not received
             Log.d("missX: ", " else:EXTRA_STATE_OFFHOOK ");
@@ -130,7 +139,7 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             //
             callReceived = false;
             //
-            isTalking = false;
+            //isTalking = false;
         }
         /*
         // If phone is Idle

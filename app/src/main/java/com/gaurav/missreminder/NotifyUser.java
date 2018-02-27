@@ -42,7 +42,7 @@ public class NotifyUser extends Service {
     public int counter=0;
 
     public static final long INTERVAL=1000*60;//variable to execute services every 1 second
-    //public static final long INTERVAL=1000*60*5; //five minutes
+    //public static final long INTERVAL=10000; //five minutes
     private Handler mHandler=new Handler(); // run on another Thread to avoid crash
     private Timer mTimer=null; // timer handling
     SharedPreferences preferences;
@@ -71,7 +71,13 @@ public class NotifyUser extends Service {
                 mTimer.cancel();
             else
                 mTimer = new Timer(); // recreate new timer
+
+
+            //build interval
             mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL*addinterval);// schedule task
+
+            //Testing interval
+            //mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL);// schedule task
     }
 
     public boolean dbStatus(){
