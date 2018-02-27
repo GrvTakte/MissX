@@ -28,6 +28,8 @@
             android:noHistory="true"
             />
 
+        <activity android:name=".subActivity.Setting" android:theme="@style/AppTheme"/>
+
         <service android:name=".NotifyUser" android:enabled="true"/>
 
         <!--

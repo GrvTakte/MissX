@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.gaurav.missreminder.R;
 import com.gaurav.missreminder.adapter.ReminderAdapter;
 import com.gaurav.missreminder.database.DbContract;
 import com.gaurav.missreminder.database.DbHelper;
+import com.gaurav.missreminder.subActivity.Setting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,8 @@ public class Reminders extends Fragment {
     ReminderAdapter adapter;
 
     Button clear;
+
+    ImageView setting;
 
     private BroadcastReceiver broadcastReceiver;
 
@@ -79,6 +83,8 @@ public class Reminders extends Fragment {
                 Toast.makeText(context, "update receiver called", Toast.LENGTH_SHORT).show();
             }
         };
+
+        setting = (ImageView) remindersView.findViewById(R.id.setting_view);
         return remindersView;
     }
 
@@ -97,6 +103,14 @@ public class Reminders extends Fragment {
                 readFromDb();
                 adapter.notifyDataSetChanged();
                 listView.getFooterViewsCount();
+            }
+        });
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Setting.class);
+                startActivity(intent);
             }
         });
     }

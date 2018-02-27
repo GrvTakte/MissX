@@ -3,6 +3,7 @@ package com.gaurav.missreminder.broadcastreceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -23,12 +24,21 @@ public class IncommingCallReceiver extends BroadcastReceiver {
     static boolean callReceived = false;
     String callerPhoneNumber;
 
+    SharedPreferences reminderPref;
+    SharedPreferences.Editor reminderEditor;
+    boolean showReminder;
+
     @Override
     public void onReceive(final Context mContext, Intent intent) {
 
+        //Shared prefernce setting.
+        reminderPref = mContext.getSharedPreferences("reminderPreference",0);
+        reminderEditor = reminderPref.edit();
+        showReminder = reminderPref.getBoolean("showReminder",true);
         Log.d("missX:","onReceive ============================================================ ");
 
         String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
+
 
         // If phone state "Rininging"
         if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
@@ -64,7 +74,9 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                     Log.d("missX:","if: callReceived==true");
 
                     if(ring == true) {
-                        onIncomingCallStarted(mContext, callerPhoneNumber);
+                        if (showReminder) {
+                            onIncomingCallStarted(mContext, callerPhoneNumber);
+                        }
                     }
                     ring = false;
                 }else{

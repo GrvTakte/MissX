@@ -13,6 +13,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -39,8 +41,8 @@ public class NotifyUser extends Service {
 
     public int counter=0;
 
-    //public static final long INTERVAL=10000;//variable to execute services every 1 second
-    public static final long INTERVAL=1000*60*5; //five minutes
+    public static final long INTERVAL=1000*60;//variable to execute services every 1 second
+    //public static final long INTERVAL=1000*60*5; //five minutes
     private Handler mHandler=new Handler(); // run on another Thread to avoid crash
     private Timer mTimer=null; // timer handling
     SharedPreferences preferences;
@@ -58,11 +60,14 @@ public class NotifyUser extends Service {
     public void onCreate() {
         super.onCreate();
 
+            preferences = this.getSharedPreferences("notificationSetting",0);
+            int addinterval = preferences.getInt("interval",5);
+
             if (mTimer != null)
                 mTimer.cancel();
             else
                 mTimer = new Timer(); // recreate new timer
-            mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL);// schedule task
+            mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL*addinterval);// schedule task
     }
 
     public boolean dbStatus(){
@@ -76,6 +81,7 @@ public class NotifyUser extends Service {
 
     private void loadNotification(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         builder.setSmallIcon(R.mipmap.ic_launcher);
         Intent intent = new Intent(this, MainActivity.class);
@@ -84,6 +90,7 @@ public class NotifyUser extends Service {
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher));
         builder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
         builder.setLights(Color.RED, 3000, 3000);
+        builder.setSound(uri);
         builder.setContentTitle("Missed");
         builder.setContentText(lastCall);
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
