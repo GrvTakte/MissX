@@ -8,13 +8,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gaurav.missreminder.database.DbContract;
 import com.gaurav.missreminder.database.DbHelper;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -31,6 +37,13 @@ public class IncommingCallReceiver extends BroadcastReceiver {
     SharedPreferences.Editor reminderEditor, reminderOutgoing;
     boolean showReminder, showReminderOutgoing;
 
+    SharedPreferences startTimePref;
+    SharedPreferences.Editor startTimeEditor;
+
+
+    String startTime;
+    String endTime;
+
     //multi calls
     static boolean isTalking = false;
 
@@ -42,6 +55,8 @@ public class IncommingCallReceiver extends BroadcastReceiver {
         reminderEditor = reminderPref.edit();
         showReminder = reminderPref.getBoolean("showReminder",true);
 
+        startTimePref = mContext.getSharedPreferences("startTime",0);
+        startTimeEditor = startTimePref.edit();
 
         reminderOutgoingPref = mContext.getSharedPreferences("reminderOutgoinfPref",0);
         reminderOutgoing = reminderOutgoingPref.edit();
@@ -70,6 +85,13 @@ public class IncommingCallReceiver extends BroadcastReceiver {
         // If incoming call is received
         if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
             // received
+
+            startTime = ""+System.currentTimeMillis();
+            startTimeEditor.clear();
+            startTimeEditor.putString("callStartTime",startTime);
+            startTimeEditor.commit();
+            //Toast.makeText(mContext, ""+startTime , Toast.LENGTH_SHORT).show();
+
             Log.d("missX: ", " if:EXTRA_STATE_OFFHOOK ");
             callReceived = true;
 
@@ -99,6 +121,10 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             Log.d("missX: ", " else:EXTRA_STATE_OFFHOOK ");
 
             if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
+
+                Toast.makeText(mContext, ""+endTime, Toast.LENGTH_SHORT).show();
+
+                getMissedCalls(mContext);
 
                 Log.d("missX: ", "if:EXTRA_STATE_IDLE");
                 //
@@ -201,6 +227,86 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             }
         }else {
             return "New Contact";
+        }
+    }
+
+
+    private String getCurrentTime(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat timeFormat = new SimpleDateFormat();
+        String currentTime = timeFormat.format(calendar.getTime());
+        return currentTime;
+    }
+
+    private String getCurrentDate(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("MM/dd/yyyy");
+        String currentDate = timeFormat.format(calendar.getTime());
+        return currentDate;
+    }
+
+    private void getMissedCalls(Context context) throws SecurityException{
+        String PATH = "content://call_log/calls";
+        // Took start time and date when call received from shared pref
+        String callStartTime = startTimePref.getString("callStartTime",null);
+        long longValue = Long.parseLong(callStartTime);
+
+        //convert long to date
+        //Date date5 = new Date(longValue);
+       // Log.d("missX", "LongValue"+longValue);
+       // Log.d("missX", "startTime"+date5);
+
+        //declare which field we want to fetch
+        String[] projection = new String[] { CallLog.Calls.CACHED_NAME,
+                CallLog.Calls.NUMBER, CallLog.Calls.DATE, CallLog.Calls.TYPE };
+
+        // declare sorting order
+        String sortOrder = CallLog.Calls.DATE + " DESC";
+
+        // where clause for query or conditions to filter query
+        StringBuffer sb = new StringBuffer();
+        sb.append(CallLog.Calls.TYPE).append("=?");
+
+        //Cursor which query the data from content provider i.e Uri and give us result
+        Cursor cursor = context.getContentResolver().query(
+                Uri.parse(PATH),
+                projection,
+                sb.toString(),
+                new String[] { String.valueOf(CallLog.Calls.MISSED_TYPE)},sortOrder);
+
+        //Check whether cursor empty or not
+        if (cursor.getCount() > 0){
+                while (cursor.moveToNext()){
+                    long date = cursor.getLong(2);
+                    String dateFormat = android.text.format.DateFormat.format("MM/dd/yyyy", new Date(date)).toString();
+                    String currentDate = getCurrentDate();
+
+                    String timeCompare = android.text.format.DateFormat.format("HH:mm",new Date(date)).toString();
+                    String startTimeCompare = android.text.format.DateFormat.format("HH:mm", new Date(longValue)).toString();
+
+                    try {
+                        Date date10 = new SimpleDateFormat("HH:mm").parse(timeCompare);
+                        Date date11 = new SimpleDateFormat("HH:mm").parse(startTimeCompare);
+
+                        // display only todays missed calls
+                        if (currentDate.matches(dateFormat)){
+
+                            // compare time to show missed call while caling.
+                            if (date11.after(date10)){
+
+                                Log.d("missX","Before Calling "+ cursor.getString(0));
+                            }else {
+                                Log.d("missX","While Calling "+ cursor.getString(0));
+                            }
+                        }else {
+
+                        }
+                    }catch (ParseException e){
+                        e.printStackTrace();
+                    }
+                }
+        }else {
+            Log.d("missX","No missed call during call recieved");
         }
     }
 

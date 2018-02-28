@@ -49,6 +49,8 @@ public class Reminders extends Fragment {
 
     public BroadcastReceiver refreshReceiver;
 
+    public BroadcastReceiver updateOutgoingReceiver;
+
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,6 +83,13 @@ public class Reminders extends Fragment {
                 adapter.notifyDataSetChanged();
                 listView.getFooterViewsCount();
                 Toast.makeText(context, "update receiver called", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        updateOutgoingReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                readFromDb();
             }
         };
 
@@ -120,6 +129,7 @@ public class Reminders extends Fragment {
         super.onResume();
         getContext().registerReceiver(broadcastReceiver, new IntentFilter(DbContract.UPDATE_UI_FILTER));
         getContext().registerReceiver(refreshReceiver, new IntentFilter(DbContract.REFRESH_LIST_UI));
+        getContext().registerReceiver(updateOutgoingReceiver, new IntentFilter(DbContract.REFRESH_OUTGOING_LIST));
     }
 
     @Override
@@ -127,6 +137,7 @@ public class Reminders extends Fragment {
         super.onPause();
         getContext().unregisterReceiver(broadcastReceiver);
         getContext().unregisterReceiver(refreshReceiver);
+        getContext().unregisterReceiver(updateOutgoingReceiver);
     }
 
     private void readFromDb(){

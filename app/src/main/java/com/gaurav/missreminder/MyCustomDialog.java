@@ -64,8 +64,8 @@ public class MyCustomDialog extends Activity {
                     helper.saveNumber(phone_no, name, database);
                     helper.close();
 
-                    Intent intent1 = new Intent(DbContract.REFRESH_LIST_UI);
-                    getBaseContext().sendBroadcast(intent1);
+                    Intent intent1 = new Intent(DbContract.REFRESH_OUTGOING_LIST);
+                    getApplicationContext().sendBroadcast(intent1);
 
                     MyCustomDialog.this.finish();
                 }

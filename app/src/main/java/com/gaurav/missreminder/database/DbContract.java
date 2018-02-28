@@ -10,4 +10,5 @@ public class DbContract {
     public static final String INCOMING_NAME = "incoming_name";
     public static final String UPDATE_UI_FILTER = "com.gaurav.missreminder.UPDATE_UI";
     public static final String REFRESH_LIST_UI = "com.gaurav.missreminder.UPDATE_LIST_UI";
+    public static final String REFRESH_OUTGOING_LIST = "com.gaurav.missreminder.refresh_outgoing_list";
 }
