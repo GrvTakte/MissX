@@ -100,6 +100,10 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             // An onGoing call and more calls coming
             if(isTalking){
                 Log.d("missX: ", "onReceive: "+callerPhoneNumber);
+
+                // method call when user gets missed call while talking
+                getMissedCalls(mContext);
+
                 /*
                 String name = getName(callerPhoneNumber,mContext);
                 String number = callerPhoneNumber;
@@ -185,30 +189,6 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             //
             //isTalking = false;
         }
-        /*
-        // If phone is Idle
-        if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-            // If phone was ringing(ring=true) and not received(callReceived=false) , then it is a missed call
-            //if (ring == true && callReceived == false) {
-            Log.d("Before If: ", ""+callReceived);
-            if (callReceived == false) {
-                Log.d("Inside1 If: ", ""+callReceived);
-                String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                DbHelper dbHelper = new DbHelper(mContext);
-                SQLiteDatabase database = dbHelper.getWritableDatabase();
-                dbHelper.saveNumber(number,database);
-                dbHelper.close();
-                Log.d("Inside If: ", ""+callReceived);
-
-                Intent intent1 = new Intent(DbContract.UPDATE_UI_FILTER);
-                mContext.sendBroadcast(intent1);
-            }else{
-                Log.d("Else: ", ""+"callReceived==false");
-            }
-        }else{
-            Log.d("Else: ", ""+"EXTRA_STATE_IDLE");
-        }
-        */
     }
 
     private String getName(String number, Context context){
@@ -297,6 +277,14 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                                 Log.d("missX","Before Calling "+ cursor.getString(0));
                             }else {
                                 Log.d("missX","While Calling "+ cursor.getString(0));
+                                String name = cursor.getString(0);
+                                String number = cursor.getString(1);
+                                DbHelper dbHelper = new DbHelper(context);
+                                SQLiteDatabase database = dbHelper.getWritableDatabase();
+                                dbHelper.saveNumber(number, name, database);
+                                dbHelper.close();
+                                Intent intent1 = new Intent(DbContract.UPDATE_UI_FILTER);
+                                context.sendBroadcast(intent1);
                             }
                         }else {
 
