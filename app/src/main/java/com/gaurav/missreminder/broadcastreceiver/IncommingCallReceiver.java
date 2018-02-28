@@ -40,6 +40,9 @@ public class IncommingCallReceiver extends BroadcastReceiver {
     SharedPreferences startTimePref;
     SharedPreferences.Editor startTimeEditor;
 
+    SharedPreferences startNamePref;
+    SharedPreferences.Editor startNameEditor;
+
 
     String startTime;
     String endTime;
@@ -58,9 +61,15 @@ public class IncommingCallReceiver extends BroadcastReceiver {
         startTimePref = mContext.getSharedPreferences("startTime",0);
         startTimeEditor = startTimePref.edit();
 
+        startNamePref = mContext.getSharedPreferences("StartName",0);
+        startNameEditor = startNamePref.edit();
+
         reminderOutgoingPref = mContext.getSharedPreferences("reminderOutgoinfPref",0);
         reminderOutgoing = reminderOutgoingPref.edit();
+
         showReminderOutgoing = reminderOutgoingPref.getBoolean("showOutgoingReminder",true);
+
+
 
         Log.d("missX:","onReceive ============================================================");
 
@@ -90,6 +99,9 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             startTimeEditor.clear();
             startTimeEditor.putString("callStartTime",startTime);
             startTimeEditor.commit();
+
+
+
             //Toast.makeText(mContext, ""+startTime , Toast.LENGTH_SHORT).show();
 
             Log.d("missX: ", " if:EXTRA_STATE_OFFHOOK ");
@@ -102,7 +114,7 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                 Log.d("missX: ", "onReceive: "+callerPhoneNumber);
 
                 // method call when user gets missed call while talking
-                getMissedCalls(mContext);
+                //getMissedCalls(mContext);
 
                 /*
                 String name = getName(callerPhoneNumber,mContext);
@@ -116,6 +128,11 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                 */
                 isTalking = false;
             }else{
+                startNameEditor.clear();
+                startNameEditor.putString("callStartNumber",intent.getExtras().getString("incoming_number"));
+                startNameEditor.commit();
+
+                Log.d("missX","else: isTalking");
                 isTalking = true;
             }
             //
@@ -126,16 +143,22 @@ public class IncommingCallReceiver extends BroadcastReceiver {
 
             if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
 
-                Toast.makeText(mContext, ""+endTime, Toast.LENGTH_SHORT).show();
+                String incomingNumber = startNamePref.getString("callStartNumber",null);
 
-                getMissedCalls(mContext);
+                if (incomingNumber.equals(callerPhoneNumber)){
+                    Log.d("missX",incomingNumber+"Same"+callerPhoneNumber);
+                    getMissedCalls(mContext);
+                }else {
+                    Log.d("missX",incomingNumber+"Not same"+callerPhoneNumber);
+                }
 
+                    //getMissedCalls(mContext);
                 Log.d("missX: ", "if:EXTRA_STATE_IDLE");
                 //
                 if(callReceived==true){
                     //
                     Log.d("missX:","EXTRA_STATE_IDLE:if: callReceived==true");
-
+                    //getMissedCalls(mContext);
                     if(ring == true) {
                         Log.d("missX:","EXTRA_STATE_IDLE:if: callReceived==true :if: ring == true");
                         if (showReminder) {
@@ -264,6 +287,7 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                     String timeCompare = android.text.format.DateFormat.format("HH:mm",new Date(date)).toString();
                     String startTimeCompare = android.text.format.DateFormat.format("HH:mm", new Date(longValue)).toString();
 
+
                     try {
                         Date date10 = new SimpleDateFormat("HH:mm").parse(timeCompare);
                         Date date11 = new SimpleDateFormat("HH:mm").parse(startTimeCompare);
@@ -276,15 +300,17 @@ public class IncommingCallReceiver extends BroadcastReceiver {
 
                                 Log.d("missX","Before Calling "+ cursor.getString(0));
                             }else {
+
                                 Log.d("missX","While Calling "+ cursor.getString(0));
-                                String name = cursor.getString(0);
+                                /*String name = cursor.getString(0);
                                 String number = cursor.getString(1);
                                 DbHelper dbHelper = new DbHelper(context);
                                 SQLiteDatabase database = dbHelper.getWritableDatabase();
                                 dbHelper.saveNumber(number, name, database);
                                 dbHelper.close();
                                 Intent intent1 = new Intent(DbContract.UPDATE_UI_FILTER);
-                                context.sendBroadcast(intent1);
+                                context.sendBroadcast(intent1); */
+
                             }
                         }else {
 
