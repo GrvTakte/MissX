@@ -11,7 +11,7 @@ android {
     }
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.gaurav.missreminder"
+        applicationId "com.ray.missreminder"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1

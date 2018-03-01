@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gaurav.missreminder">
+    package="com.ray.missreminder">
 
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
@@ -16,7 +16,7 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.ray.missreminder.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,14 +24,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MyCustomDialog"
+        <activity android:name="com.ray.missreminder.MyCustomDialog"
             android:theme="@android:style/Theme.Dialog"
             android:noHistory="true"
             />
 
-        <activity android:name=".subActivity.Setting" android:theme="@style/AppTheme"/>
+        <activity android:name="com.ray.missreminder.subActivity.Setting" android:theme="@style/AppTheme"/>
 
-        <service android:name=".NotifyUser" android:enabled="true"/>
+        <service android:name="com.ray.missreminder.NotifyUser" android:enabled="true"/>
 
         <!--
         <receiver android:name=".broadcastreceiver.IncommingCallReceiver">
@@ -41,13 +41,13 @@
         </receiver> -->
 
 
-        <receiver android:name=".broadcastreceiver.CallReceiver" >
+        <receiver android:name="com.ray.missreminder.broadcastreceiver.CallReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".broadcastreceiver.RestartServiceBroadcastReceiver"
+        <receiver android:name="com.ray.missreminder.broadcastreceiver.RestartServiceBroadcastReceiver"
             android:enabled="true"
             android:exported="true"
             android:label="RestartServiceWhenStart">

@@ -6,6 +6,27 @@
     android:orientation="vertical"
     android:background="#ef5252">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About"
+                android:textColor="#fff"
+                android:textSize="25dp"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
     <TextView
         android:id="@+id/about"
         android:layout_width="match_parent"
@@ -13,7 +34,8 @@
         android:text="Miss X"
         android:gravity="center_horizontal"
         android:textSize="50dp"
-        android:textColor="#fff"/>
+        android:textColor="#fff"
+        android:layout_marginTop="80dp"/>
 
     <TextView
         android:id="@+id/version"
@@ -61,6 +83,17 @@
         android:layout_marginTop="20dp"/>
 
     <TextView
+        android:id="@+id/whats_new_description_two"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add notes about your phone call."
+        android:textSize="20dp"
+        android:textColor="#fff"
+        android:layout_below="@+id/whats_new_description"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp"/>
+
+   <!-- <TextView
         android:id="@+id/prebuild"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -69,6 +102,6 @@
         android:textSize="30dp"
         android:gravity="center_horizontal"
         android:textColor="#fff"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"/> -->
 
 </RelativeLayout>
