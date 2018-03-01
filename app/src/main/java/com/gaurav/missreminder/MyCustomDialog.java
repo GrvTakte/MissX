@@ -3,6 +3,7 @@ package com.gaurav.missreminder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gaurav.missreminder.database.DbContract;
@@ -27,6 +29,11 @@ public class MyCustomDialog extends Activity {
     TextView number;
     String phone_no;
     Button remind,ignore;
+
+    EditText notesEditText;
+
+    SharedPreferences notesPref;
+    boolean isNotesShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,6 +78,14 @@ public class MyCustomDialog extends Activity {
                 }
             });
 
+
+            if (isNotesShow){
+                notesEditText.setVisibility(View.VISIBLE);
+            }else {
+                notesEditText.setVisibility(View.GONE);
+            }
+
+
             ignore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,6 +125,10 @@ public class MyCustomDialog extends Activity {
         number   = (TextView) findViewById(R.id.incoming_number);
         remind   = (Button) findViewById(R.id.remind);
         ignore = (Button) findViewById(R.id.ignore);
+        notesEditText = (EditText) findViewById(R.id.notes_Text);
+
+        notesPref = this.getSharedPreferences("notes",0);
+        isNotesShow = notesPref.getBoolean("showNotes",false);
     }
 
 }

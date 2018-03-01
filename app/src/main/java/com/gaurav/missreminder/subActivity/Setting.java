@@ -21,8 +21,8 @@ import com.gaurav.missreminder.R;
 public class Setting extends AppCompatActivity {
 
     SeekBar seekBar;
-    SharedPreferences preferences, reminderPref, reminderOutgoingPref;
-    SharedPreferences.Editor editor, reminderEditor, remindOutgoingEditor;
+    SharedPreferences preferences, reminderPref, reminderOutgoingPref, notesPref;
+    SharedPreferences.Editor editor, reminderEditor, remindOutgoingEditor, notesEditor;
     Button done;
 
     Switch reminderSwitch, remindSwitchOutgoing, notesSwitch;
@@ -42,6 +42,10 @@ public class Setting extends AppCompatActivity {
         //reminder outgoing prefernce
         reminderOutgoingPref = this.getSharedPreferences("reminderOutgoinfPref",0);
         remindOutgoingEditor = reminderOutgoingPref.edit();
+
+        //notes shared preferences
+        notesPref = this.getSharedPreferences("notes",0);
+        notesEditor = notesPref.edit();
 
         seekBar = (SeekBar) findViewById(R.id.seekbar);
         done = (Button) findViewById(R.id.setting_done);
@@ -98,10 +102,13 @@ public class Setting extends AppCompatActivity {
     }
 
     private void checkSeekBarStatus(){
+        //get notification interval
         int position = preferences.getInt("interval",0);
-        boolean showReminder = reminderPref.getBoolean("showReminder",true);
 
+        //get boolean value for state like show reminder UI on callReceived, callDialed
+        boolean showReminder = reminderPref.getBoolean("showReminder",true);
         boolean showOutgoingReminder = reminderOutgoingPref.getBoolean("showOutgoingReminder",true);
+        boolean showNotesReminder = notesPref.getBoolean("showNotes",false);
 
         Log.d("missX ","pref "+position);
 
@@ -128,7 +135,11 @@ public class Setting extends AppCompatActivity {
             remindSwitchOutgoing.setChecked(false);
         }
 
-
+        if (showNotesReminder){
+            notesSwitch.setChecked(true);
+        }else{
+            notesSwitch.setChecked(false);
+        }
 
     }
 
@@ -169,7 +180,15 @@ public class Setting extends AppCompatActivity {
         notesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                
+                if (isChecked){
+                    notesEditor.clear();
+                    notesEditor.putBoolean("showNotes",true);
+                    notesEditor.commit();
+                }else {
+                    notesEditor.clear();
+                    notesEditor.putBoolean("showNotes",false);
+                    notesEditor.commit();
+                }
             }
         });
 
