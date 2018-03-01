@@ -25,7 +25,7 @@ public class Setting extends AppCompatActivity {
     SharedPreferences.Editor editor, reminderEditor, remindOutgoingEditor;
     Button done;
 
-    Switch reminderSwitch, remindSwitchOutgoing;
+    Switch reminderSwitch, remindSwitchOutgoing, notesSwitch;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +48,10 @@ public class Setting extends AppCompatActivity {
 
         reminderSwitch = (Switch) findViewById(R.id.switch_remind_ignore);
         reminderSwitch.setChecked(true);
+
+        notesSwitch = (Switch) findViewById(R.id.switch_notes);
+        notesSwitch.setChecked(false);
+
         remindSwitchOutgoing = (Switch) findViewById(R.id.switch_remind_ignore_outgoing);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -159,6 +163,13 @@ public class Setting extends AppCompatActivity {
                     remindOutgoingEditor.putBoolean("showOutgoingReminder",false);
                     remindOutgoingEditor.commit();
                 }
+            }
+        });
+
+        notesSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                
             }
         });
 

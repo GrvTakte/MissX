@@ -125,9 +125,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="On Call end 'Show options' ? \n (Dialed call)"
+        android:text="On Call end 'Show option' ? \n (Dialed call)"
         android:textColor="#000"
         android:textSize="20dp"
+        android:layout_marginLeft="5dp"
         android:layout_below="@+id/switch_remind_ignore"
         android:layout_marginTop="50dp"/>
 
@@ -136,6 +137,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/switch_remind_ignore"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="20dp"
+        android:trackTint="#000000"
+        android:thumbTint="#FF9800" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show 'Add note' ?"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/switch_remind_ignore_outgoing"
+        android:layout_marginTop="50dp"/>
+
+    <Switch
+        android:id="@+id/switch_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/switch_remind_ignore_outgoing"
         android:layout_alignParentRight="true"
         android:layout_marginTop="50dp"
         android:layout_marginRight="20dp"

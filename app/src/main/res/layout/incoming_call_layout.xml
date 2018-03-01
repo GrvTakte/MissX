@@ -3,13 +3,15 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="200dp"
         android:layout_margin="5dp"
         android:backgroundTint="#fff">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
             <TextView
                 android:id="@+id/incoming_number"
                 android:layout_width="wrap_content"
@@ -20,6 +22,23 @@
                 android:layout_margin="5dp"
                 android:layout_centerHorizontal="true"/>
 
+            <EditText
+                android:id="@+id/notes_Text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/incoming_number"
+                android:layout_marginTop="10dp"
+                android:inputType="text"
+                android:maxLength="30"
+                android:hint="30 characters note"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:gravity="center_horizontal">
             <Button
                 android:id="@+id/remind"
                 android:layout_width="110dp"
@@ -28,10 +47,8 @@
                 android:textAllCaps="false"
                 android:textSize="20dp"
                 android:textColor="#4caf50"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="20dp"
-                android:backgroundTint="#00ff00"/>
+                android:layout_marginRight="20dp"
+                android:backgroundTint="#00ff00" />
 
             <Button
                 android:id="@+id/ignore"
@@ -41,9 +58,9 @@
                 android:textSize="20dp"
                 android:textAllCaps="false"
                 android:textColor="#fff"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:backgroundTint="#ef00"/>
+
+            </LinearLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
