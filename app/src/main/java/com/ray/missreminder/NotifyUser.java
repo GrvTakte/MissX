@@ -32,7 +32,7 @@ public class NotifyUser extends Service {
 
     public int counter=0;
 
-    public static final long INTERVAL=1000*30;//variable to execute services every 60 second
+    public static final long INTERVAL=1000*60;//variable to execute services every 60 second
     //public static final long INTERVAL=10000; //five minutes
     private Handler mHandler=new Handler(); // run on another Thread to avoid crash
     private Timer mTimer=null; // timer handling
@@ -66,7 +66,7 @@ public class NotifyUser extends Service {
             mTimer.cancel();
         }else {
             mTimer = new Timer(); // recreate new timer
-            mTimer.scheduleAtFixedRate(timerTask, 1000, INTERVAL);// schedule task
+            mTimer.scheduleAtFixedRate(timerTask, 1000, INTERVAL*addinterval);// schedule task
             Log.d("Service","New timer object created");
         }            //Testing interval
             //mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL);// schedule task

@@ -33,14 +33,6 @@
 
         <service android:name="com.ray.missreminder.NotifyUser" android:enabled="true"/>
 
-        <!--
-        <receiver android:name=".broadcastreceiver.IncommingCallReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.PHONE_STATE"/>
-            </intent-filter>
-        </receiver> -->
-
-
         <receiver android:name="com.ray.missreminder.broadcastreceiver.CallReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />

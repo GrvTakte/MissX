@@ -41,7 +41,7 @@
         android:id="@+id/version"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Version 1.0.10"
+        android:text="Version 1.0.11"
         android:textStyle="bold"
         android:textSize="30dp"
         android:layout_below="@+id/about"
@@ -59,7 +59,7 @@
         android:textColor="#fff"
         android:gravity="center_horizontal"/>
 
-    <TextView
+    <!--<TextView
         android:id="@+id/whats_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
         android:gravity="center_horizontal"
         android:layout_marginTop="20dp"/>
 
-   <!-- <TextView
+    <TextView
         android:id="@+id/prebuild"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
