@@ -22,7 +22,6 @@ public class DbNotesHelper extends SQLiteOpenHelper {
 
     public static final String DROP_TABLE = "drop table if exists "+TABLE_NAME;
 
-
     public DbNotesHelper(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }

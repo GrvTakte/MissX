@@ -58,14 +58,14 @@ public class NotifyUser extends Service {
                 addinterval = 5;
             }
 
-            if (mTimer != null)
+            if (mTimer != null) {
                 mTimer.cancel();
-            else
+            }else {
                 mTimer = new Timer(); // recreate new timer
-
+            }
 
             //build interval
-            mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL*addinterval);// schedule task
+            mTimer.scheduleAtFixedRate(task, 1000, INTERVAL);// schedule task
 
             //Testing interval
             //mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL);// schedule task
@@ -83,7 +83,6 @@ public class NotifyUser extends Service {
     private void loadNotification(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
         builder.setSmallIcon(R.mipmap.ic_launcher);
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,0,intent,0);
@@ -96,7 +95,6 @@ public class NotifyUser extends Service {
         builder.setContentText(lastCall);
         builder.setPriority(NotificationCompat.PRIORITY_HIGH);
         builder.setSubText("Tap to view complete list");
-
         NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(1,builder.build());
     }
@@ -139,12 +137,23 @@ public class NotifyUser extends Service {
     }
 
     public void stopTimerTask(){
-
         if (timer!=null){
             timer.cancel();
             timer = null;
         }
     }
+
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+            if (dbStatus()) {
+                loadNotification();
+                Log.d("missX","Database not empty");
+            }else {
+                Log.d("missX","Database empty");
+            }
+        }
+    };
 
     //inner class of TimeDisplayTimerTask
     private class TimeDisplayTimerTask extends TimerTask {
@@ -169,14 +178,5 @@ public class NotifyUser extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        Intent intent = new Intent(getApplicationContext(),NotifyUser.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this,1,intent,PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.set(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime()+1000,pendingIntent);
-        super.onTaskRemoved(rootIntent);
     }
 }

@@ -72,8 +72,8 @@ public class Setting extends AppCompatActivity {
                 if (progress <=0){
                     seekBar.setProgress(0);
                     editor.clear();
-                    editor.putInt("interval",0);
-                    Log.d("missX","0");
+                    editor.putInt("interval",5);
+                    Log.d("missX","5");
                     editor.commit();
                 }
                 else if (progress >0 && progress < 33){
