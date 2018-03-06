@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         return context;
     }
 
-
     //fragments
     MissedCall missedCall;
     Reminders reminders;

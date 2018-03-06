@@ -32,7 +32,7 @@ public class NotifyUser extends Service {
 
     public int counter=0;
 
-    public static final long INTERVAL=1000*60;//variable to execute services every 60 second
+    public static final long INTERVAL=1000*30;//variable to execute services every 60 second
     //public static final long INTERVAL=10000; //five minutes
     private Handler mHandler=new Handler(); // run on another Thread to avoid crash
     private Timer mTimer=null; // timer handling
@@ -58,23 +58,25 @@ public class NotifyUser extends Service {
                 addinterval = 5;
             }
 
-            if (mTimer != null) {
-                mTimer.cancel();
-            }else {
-                mTimer = new Timer(); // recreate new timer
-            }
+            Log.d("Service","onCreate Called");
+            TimeDisplayTimerTask timerTask = new TimeDisplayTimerTask();
 
             //build interval
-            mTimer.scheduleAtFixedRate(task, 1000, INTERVAL);// schedule task
-
-            //Testing interval
+        if (mTimer != null) {
+            mTimer.cancel();
+        }else {
+            mTimer = new Timer(); // recreate new timer
+            mTimer.scheduleAtFixedRate(timerTask, 1000, INTERVAL);// schedule task
+            Log.d("Service","New timer object created");
+        }            //Testing interval
             //mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL);// schedule task
     }
 
     public boolean dbStatus(){
         DbHelper helper = new DbHelper(getApplicationContext());
         SQLiteDatabase database = helper.getWritableDatabase();
-        Log.d("dbStatus",""+helper.dbStatus(database));
+        //Log.d("dbStatus",""+helper.dbStatus(database));
+        Log.d("Service","Database status: "+helper.dbStatus(database));
         boolean status = helper.dbStatus(database);
         helper.close();
         return status;
@@ -97,12 +99,15 @@ public class NotifyUser extends Service {
         builder.setSubText("Tap to view complete list");
         NotificationManager manager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(1,builder.build());
+
+        Log.d("Service","loadNotification() Called");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent,flags,startId);
-        startTimer();
+        //startTimer();
+        Log.d("Service","onStartCommand() Called");
         return START_STICKY;
     }
 
@@ -111,18 +116,19 @@ public class NotifyUser extends Service {
         super.onDestroy();
         Intent broadcastIntent = new Intent("com.gaurav.missreminder.RestartService");
         sendBroadcast(broadcastIntent);
-        stopTimerTask();
+        Log.d("Service","onDestroy() Called");
+        mTimer.cancel();
+        //stopTimerTask();
     }
 
     private Timer timer;
     private TimerTask timerTask;
     long oldTime = 0;
 
+
     public void startTimer(){
         timer = new Timer();
-
         initializeTimerTask();
-
         timer.schedule(timerTask,1000,1000);
     }
 
@@ -143,18 +149,6 @@ public class NotifyUser extends Service {
         }
     }
 
-    TimerTask task = new TimerTask() {
-        @Override
-        public void run() {
-            if (dbStatus()) {
-                loadNotification();
-                Log.d("missX","Database not empty");
-            }else {
-                Log.d("missX","Database empty");
-            }
-        }
-    };
-
     //inner class of TimeDisplayTimerTask
     private class TimeDisplayTimerTask extends TimerTask {
         @Override
@@ -163,6 +157,7 @@ public class NotifyUser extends Service {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d("Service","TimeDisplayTimerTask() Called");
                     // display toast at every 10 second
                     if (dbStatus()) {
                         loadNotification();
@@ -177,6 +172,7 @@ public class NotifyUser extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        Log.d("Service","IBinder() Called");
         return null;
     }
 }
