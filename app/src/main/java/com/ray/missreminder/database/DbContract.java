@@ -24,4 +24,7 @@ public class DbContract {
     //notes broadcast receiver variable
     public static final String REFRESH_NOTES_UI = "com.gaurav.missreminder.refresh.notes.ui";
     public static final String REMOVE_REFRESH_NOTES_UI = "com.gaurav.missreminder.remove.refresh.notes.ui";
+
+    //block number database variable
+    public static final String BLOCKED_NUMBER = "block_number";
 }

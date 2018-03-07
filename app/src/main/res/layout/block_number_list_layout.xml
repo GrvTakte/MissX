@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/reminder_layout_number"
+        android:id="@+id/ignore_layout_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="number"
@@ -15,7 +15,7 @@
         android:focusable="false"
         android:clickable="false"/>
 
-    <TextView
+    <!--<TextView
         android:id="@+id/reminder_layout_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,10 +25,10 @@
         android:padding="2dp"
         android:focusable="false"
         android:clickable="false"
-        android:layout_below="@+id/reminder_layout_number"/>
+        android:layout_below="@+id/reminder_layout_number"/> -->
 
     <Button
-        android:id="@+id/remove_reminder"
+        android:id="@+id/remove_ignore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remove"
@@ -37,13 +37,13 @@
         android:layout_alignParentRight="true"
         android:focusable="false"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/ignore_reminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ignore"
         android:textColor="#fff"
         android:backgroundTint="#ef00"
-        android:layout_toLeftOf="@+id/remove_reminder"/>
+        android:layout_toLeftOf="@+id/remove_reminder"/> -->
 
 </RelativeLayout>

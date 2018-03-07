@@ -57,7 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            style="@style/tallerBarStyle" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
 
 
         <RelativeLayout
@@ -172,5 +173,24 @@
         android:layout_marginRight="20dp"
         android:trackTint="#000000"
         android:thumbTint="#FF9800" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manage Ignore List"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@+id/show_add_note_text"
+        android:layout_marginTop="50dp"/>
+
+    <Button
+        android:id="@+id/ignore_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ignore list"
+        android:layout_below="@+id/show_add_note_text"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

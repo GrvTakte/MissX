@@ -189,7 +189,6 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                             } else {
                                 Log.d("missX", "ShowReminderOutgoing == false");
                             }
-
                         }
                         ring = false;
                     } else {
