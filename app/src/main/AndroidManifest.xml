@@ -31,6 +31,8 @@
 
         <activity android:name="com.ray.missreminder.subActivity.Setting" android:theme="@style/AppTheme"/>
 
+        <activity android:name=".subActivity.BlockNumber" android:theme="@style/AppTheme"/>
+
         <service android:name="com.ray.missreminder.NotifyUser" android:enabled="true"/>
 
         <receiver android:name="com.ray.missreminder.broadcastreceiver.CallReceiver" >

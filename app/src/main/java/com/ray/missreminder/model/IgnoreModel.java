@@ -8,11 +8,21 @@ public class IgnoreModel {
 
     private int id;
     private String number;
+    private String name;
 
     public IgnoreModel(){}
 
-    public IgnoreModel(String number){
+    public IgnoreModel(String number, String name){
+        this.name = name;
         this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getId() {

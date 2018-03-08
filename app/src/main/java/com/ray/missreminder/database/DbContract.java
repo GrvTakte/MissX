@@ -27,4 +27,5 @@ public class DbContract {
 
     //block number database variable
     public static final String BLOCKED_NUMBER = "block_number";
+    public static final String BLOCKED_NAME = "block_name";
 }

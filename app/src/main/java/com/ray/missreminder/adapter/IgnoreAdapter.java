@@ -45,9 +45,11 @@ public class IgnoreAdapter extends ArrayAdapter<IgnoreModel>{
         view = inflater.inflate(resourceId,null);
 
         TextView number = (TextView) view.findViewById(R.id.ignore_layout_number);
+        TextView name = (TextView) view.findViewById(R.id.ignore_layout_name);
         Button remove_ignore = (Button) view.findViewById(R.id.remove_ignore);
 
         number.setText(list.get(position).getNumber());
+        name.setText(list.get(position).getName());
 
         remove_ignore.setOnClickListener(new View.OnClickListener() {
             @Override

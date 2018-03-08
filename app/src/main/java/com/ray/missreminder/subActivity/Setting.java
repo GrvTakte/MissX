@@ -1,5 +1,6 @@
 package com.ray.missreminder.subActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -25,6 +26,7 @@ public class Setting extends AppCompatActivity {
     SharedPreferences.Editor editor, reminderEditor, remindOutgoingEditor, notesEditor;
     Button done;
 
+    Button ignoreListDisplay;
     TextView show_add_notes_text;
 
     boolean isChecked1=true;
@@ -66,6 +68,8 @@ public class Setting extends AppCompatActivity {
 
         show_add_notes_text = (TextView) findViewById(R.id.show_add_note_text);
 
+        ignoreListDisplay = (Button) findViewById(R.id.ignore_list);
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -103,6 +107,14 @@ public class Setting extends AppCompatActivity {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+
+        ignoreListDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Setting.this, BlockNumber.class);
+                startActivity(intent);
             }
         });
 

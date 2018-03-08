@@ -142,23 +142,28 @@ public class Reminders extends Fragment {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
 
         Cursor cursor = dbHelper.readNumber(database);
+        try {
+            if (cursor.getCount() > 0) {
+                while (cursor.moveToNext()) {
+                    String number;
+                    int id;
+                    String name;
 
-        if (cursor.getCount()>0){
-            while (cursor.moveToNext()){
-                String number;
-                int id;
-                String name;
-
-                number = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_NUMBER));
-                id = cursor.getInt(cursor.getColumnIndex("id"));
-                name = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_NAME));
-               // Log.d("database List:",""+id+" "+number);
-                list.add(new MissedCallModel(id,number,name));
+                    number = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_NUMBER));
+                    id = cursor.getInt(cursor.getColumnIndex("id"));
+                    name = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_NAME));
+                    // Log.d("database List:",""+id+" "+number);
+                    list.add(new MissedCallModel(id, number, name));
+                }
+                listView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
             cursor.close();
             dbHelper.close();
-            listView.setAdapter(adapter);
-            adapter.notifyDataSetChanged();
+            database.close();
         }
     }
 

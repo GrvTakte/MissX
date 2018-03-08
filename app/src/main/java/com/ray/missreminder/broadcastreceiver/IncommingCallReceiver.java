@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.ray.missreminder.database.DbContract;
 import com.ray.missreminder.database.DbHelper;
+import com.ray.missreminder.database.IgnoreDbHelper;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -195,19 +196,28 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                         Log.d("missX:", "EXTRA_STATE_IDLE:else: callReceived==true");
 
                         if (ring == true) {
+                            IgnoreDbHelper helper = new IgnoreDbHelper(mContext);
+                            SQLiteDatabase db = helper.getWritableDatabase();
+                            boolean isPresentInIgnoreList = helper.hasNumber(intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER),db);
+                            Log.d("isPresent",""+isPresentInIgnoreList+intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER));
+                            helper.close();
                             //
-                            Log.d("missX:", "if: ring==true");
-                            String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
-                            String name = getName(number, mContext);
-                            //Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
-                            DbHelper dbHelper = new DbHelper(mContext);
-                            SQLiteDatabase database = dbHelper.getWritableDatabase();
-                            dbHelper.saveNumber(number, name, database);
-                            dbHelper.close();
-                            //Log.d("Inside If: ", ""+callReceived);
+                            if (!isPresentInIgnoreList) {
+                                Log.d("missX:", "if: ring==true");
+                                String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
+                                String name = getName(number, mContext);
+                                //Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
+                                DbHelper dbHelper = new DbHelper(mContext);
+                                SQLiteDatabase database = dbHelper.getWritableDatabase();
+                                dbHelper.saveNumber(number, name, database);
+                                dbHelper.close();
+                                //Log.d("Inside If: ", ""+callReceived);
 
-                            Intent intent1 = new Intent(DbContract.UPDATE_UI_FILTER);
-                            mContext.sendBroadcast(intent1);
+                                Intent intent1 = new Intent(DbContract.UPDATE_UI_FILTER);
+                                mContext.sendBroadcast(intent1);
+                            }else {
+                                Log.d("missX","number present in ignore list");
+                            }
                             //
                             //onIncomingCallStarted(mContext, callerPhoneNumber);
                         } else {

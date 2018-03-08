@@ -15,8 +15,8 @@
         android:focusable="false"
         android:clickable="false"/>
 
-    <!--<TextView
-        android:id="@+id/reminder_layout_name"
+    <TextView
+        android:id="@+id/ignore_layout_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="name"
@@ -25,7 +25,7 @@
         android:padding="2dp"
         android:focusable="false"
         android:clickable="false"
-        android:layout_below="@+id/reminder_layout_number"/> -->
+        android:layout_below="@+id/ignore_layout_number"/>
 
     <Button
         android:id="@+id/remove_ignore"

@@ -15,7 +15,7 @@ public class IgnoreDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "blocknumberdb";
     public static final int DATABASE_VERSION = 1;
     public static final String TABLE_NAME = "blocknumbertable";
-    public static final String CREATE_TABLE = "create table if not exists "+TABLE_NAME+"(id integer primary key autoincrement,"+DbContract.BLOCKED_NUMBER+" text);";
+    public static final String CREATE_TABLE = "create table if not exists "+TABLE_NAME+"(id integer primary key autoincrement,"+DbContract.BLOCKED_NUMBER+" text,"+DbContract.BLOCKED_NAME+" text);";
     public static final String DROP_TABLE = "drop table if exists "+TABLE_NAME;
 
     public IgnoreDbHelper(Context context){
@@ -45,14 +45,15 @@ public class IgnoreDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void saveNumber(String number, SQLiteDatabase db){
+    public void saveNumber(String number, String name, SQLiteDatabase db){
         ContentValues values = new ContentValues();
         values.put(DbContract.BLOCKED_NUMBER,number);
+        values.put(DbContract.BLOCKED_NAME,name);
         db.insert(TABLE_NAME,null,values);
     }
 
     public Cursor readBlockedNumbers(SQLiteDatabase database){
-        String[] projection = {"id",DbContract.BLOCKED_NUMBER};
+        String[] projection = {"id",DbContract.BLOCKED_NUMBER,DbContract.BLOCKED_NAME};
         return (database.query(TABLE_NAME,projection,null,null,null,null,null));
     }
 
