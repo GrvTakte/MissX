@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ray.missreminder.MissedCallModel;
@@ -49,8 +50,8 @@ public class ReminderAdapter extends ArrayAdapter<MissedCallModel>{
 
         TextView number = (TextView) view.findViewById(R.id.reminder_layout_number);
         TextView name = (TextView) view.findViewById(R.id.reminder_layout_name);
-        Button removeButton = (Button) view.findViewById(R.id.remove_reminder);
-        Button ignoreButton = (Button) view.findViewById(R.id.ignore_reminder);
+        ImageButton removeButton = (ImageButton) view.findViewById(R.id.remove_reminder);
+        ImageButton ignoreButton = (ImageButton) view.findViewById(R.id.ignore_reminder);
         number.setText("+"+list.get(position).getNumber());
         name.setText(list.get(position).getName());
 

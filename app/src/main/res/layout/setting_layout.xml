@@ -190,6 +190,7 @@
         android:layout_height="wrap_content"
         android:text="ignore list"
         android:layout_below="@+id/show_add_note_text"
+        android:backgroundTint="#FFB300"
         android:layout_marginTop="40dp"
         android:layout_alignParentRight="true"/>
 

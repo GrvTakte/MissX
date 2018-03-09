@@ -178,15 +178,19 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                         if (ring == true) {
                             Log.d("missX:", "EXTRA_STATE_IDLE:if: callReceived==true :if: ring == true");
                             if (showReminder) {
-                                onIncomingCallStarted(mContext, callerPhoneNumber);
+                                if (!showDialog(mContext,callerPhoneNumber)) {
+                                    onIncomingCallStarted(mContext, callerPhoneNumber);
+                                }
                             }
                         } else {
                             Log.d("missX:", "EXTRA_STATE_IDLE:if: callReceived==true :else: ring == true");
 
                             if (showReminderOutgoing) {
                                 // Display UI for remind/Ignore
-                                onIncomingCallStarted(mContext, callerPhoneNumber);
-                                Log.d("missX", "ShowReminderOutgoing == true");
+                                if (!showDialog(mContext,callerPhoneNumber)) {
+                                    onIncomingCallStarted(mContext, callerPhoneNumber);
+                                    Log.d("missX", "ShowReminderOutgoing == true");
+                                }
                             } else {
                                 Log.d("missX", "ShowReminderOutgoing == false");
                             }
@@ -352,6 +356,18 @@ public class IncommingCallReceiver extends BroadcastReceiver {
 
         startNameEditor.clear();
         startNameEditor.commit();
+    }
+
+    private boolean showDialog(Context context,String number){
+        IgnoreDbHelper helper = new IgnoreDbHelper(context);
+        SQLiteDatabase database = helper.getWritableDatabase();
+        if (helper.hasNumber(number,database)){
+            helper.close();
+            return true;
+        }else {
+            helper.close();
+            return false;
+        }
     }
 
     protected void onIncomingCallStarted(Context ctx, String number){}

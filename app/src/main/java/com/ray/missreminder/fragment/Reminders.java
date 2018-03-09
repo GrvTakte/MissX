@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -38,7 +39,7 @@ public class Reminders extends Fragment {
 
     Button clear;
 
-    ImageView setting;
+    ImageButton setting;
 
     private BroadcastReceiver broadcastReceiver;
 
@@ -87,7 +88,7 @@ public class Reminders extends Fragment {
             }
         };
 
-        setting = (ImageView) remindersView.findViewById(R.id.setting_view);
+        setting = (ImageButton) remindersView.findViewById(R.id.setting_view);
         return remindersView;
     }
 
