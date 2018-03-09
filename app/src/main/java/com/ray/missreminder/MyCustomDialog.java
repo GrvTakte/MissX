@@ -21,6 +21,9 @@ import com.ray.missreminder.database.DbContract;
 import com.ray.missreminder.database.DbHelper;
 import com.ray.missreminder.database.DbNotesHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Gaurav on 2/23/2018.
  */
@@ -66,10 +69,15 @@ public class MyCustomDialog extends Activity {
                 @Override
                 public void onClick(View v)
                 {
+                    long callTime = System.currentTimeMillis();
+                    Date dat = new Date(callTime);
+                    SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+
+                    String time = format.format(dat);
                     String name = getName(phone_no, getApplicationContext());
-                     DbHelper helper = new DbHelper(getApplicationContext());
+                    DbHelper helper = new DbHelper(getApplicationContext());
                     SQLiteDatabase database = helper.getWritableDatabase();
-                    helper.saveNumber(phone_no, name, database);
+                    helper.saveNumber(phone_no, name, time,database);
                     helper.close();
 
                     Intent intent1 = new Intent(DbContract.REFRESH_OUTGOING_LIST);

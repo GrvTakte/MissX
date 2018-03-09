@@ -53,7 +53,6 @@ public class Notes extends Fragment {
             getNotesData();
 
             refreshReceiver = new BroadcastReceiver() {
-
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     getNotesData();
@@ -112,7 +111,6 @@ public class Notes extends Fragment {
 
                 list.add(new NotesModel(id,number,notes,name));
             }
-
             cursor.close();
             helper.close();
             notesListView.setAdapter(adapter);

@@ -13,10 +13,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "numberDb";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     private static final String CREATE = "create table "+DbContract.TABLE_NAME+
-            "(id integer primary key autoincrement,"+DbContract.INCOMING_NUMBER+" text,"+DbContract.INCOMING_NAME+" text);";
+            "(id integer primary key autoincrement,"+DbContract.INCOMING_NUMBER+" text,"+DbContract.INCOMING_NAME+" text,"+DbContract.INCOMING_TIME+" text);";
 
     private static final String DROP_TABLE = "drop table if exists "+DbContract.TABLE_NAME;
 
@@ -35,16 +35,17 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void saveNumber(String number, String name, SQLiteDatabase db){
+    public void saveNumber(String number, String name, String time, SQLiteDatabase db){
         ContentValues values = new ContentValues();
         String formatedNumber = number.replaceAll("[-+.:,]","");
         values.put(DbContract.INCOMING_NUMBER,formatedNumber);
         values.put(DbContract.INCOMING_NAME,name);
+        values.put(DbContract.INCOMING_TIME,time);
         db.insert(DbContract.TABLE_NAME,null,values);
     }
 
     public Cursor readNumber(SQLiteDatabase database){
-        String[] projection = {"id",DbContract.INCOMING_NUMBER,DbContract.INCOMING_NAME};
+        String[] projection = {"id",DbContract.INCOMING_NUMBER,DbContract.INCOMING_NAME, DbContract.INCOMING_TIME};
         return (database.query(DbContract.TABLE_NAME,projection,null,null,null,null,null));
     }
 

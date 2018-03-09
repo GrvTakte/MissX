@@ -13,28 +13,39 @@
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/reminder_layout_number"
+            android:id="@+id/reminder_layout_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="number"
+            android:text="name"
             android:textSize="20dp"
             android:textColor="#000"
             android:padding="2dp"
+            android:layout_marginLeft="2dp"
             android:focusable="false"
             android:clickable="false"
             android:textAllCaps="true"/>
 
         <TextView
-            android:id="@+id/reminder_layout_name"
+            android:id="@+id/reminder_layout_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name"
-            android:textSize="17dp"
+            android:text="number"
             android:padding="2dp"
-            android:layout_marginTop="-10dp"
             android:focusable="false"
             android:clickable="false"
-            android:layout_below="@+id/reminder_layout_number"/>
+            android:layout_below="@+id/reminder_layout_name"/>
+
+        <TextView
+            android:id="@+id/reminder_layout_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="time"
+            android:padding="2dp"
+            android:focusable="false"
+            android:clickable="false"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/reminder_layout_number"
+            android:layout_below="@+id/reminder_layout_name"/>
 
         <ImageButton
             android:id="@+id/remove_reminder"

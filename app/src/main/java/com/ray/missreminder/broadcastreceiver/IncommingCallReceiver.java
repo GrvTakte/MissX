@@ -46,6 +46,7 @@ public class IncommingCallReceiver extends BroadcastReceiver {
     String startTime;
     String endTime;
 
+    long callTime;
     //multi calls
     static boolean isTalking = false;
 
@@ -207,13 +208,18 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                             helper.close();
                             //
                             if (!isPresentInIgnoreList) {
+                                callTime = System.currentTimeMillis();
+                                Date date = new Date(callTime);
+                                SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+                                String time = format.format(date);
+
                                 Log.d("missX:", "if: ring==true");
                                 String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
                                 String name = getName(number, mContext);
                                 //Toast.makeText(mContext, name, Toast.LENGTH_SHORT).show();
                                 DbHelper dbHelper = new DbHelper(mContext);
                                 SQLiteDatabase database = dbHelper.getWritableDatabase();
-                                dbHelper.saveNumber(number, name, database);
+                                dbHelper.saveNumber(number, name, time,database);
                                 dbHelper.close();
                                 //Log.d("Inside If: ", ""+callReceived);
 
@@ -331,13 +337,17 @@ public class IncommingCallReceiver extends BroadcastReceiver {
 
                                 Log.d("missX","Before Calling "+ cursor.getString(0));
                             }else {
+                                callTime = System.currentTimeMillis();
+                                Date dat = new Date(callTime);
+                                SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+                                String time = format.format(dat);
 
                                 Log.d("missX","While Calling "+ cursor.getString(0));
                                 String name = cursor.getString(0);
                                 String number = cursor.getString(1);
                                 DbHelper dbHelper = new DbHelper(context);
                                 SQLiteDatabase database = dbHelper.getWritableDatabase();
-                                dbHelper.saveNumber(number, name, database);
+                                dbHelper.saveNumber(number, name, time,database);
                                 dbHelper.close();
                                 Intent intent1 = new Intent(DbContract.UPDATE_UI_FILTER);
                                 context.sendBroadcast(intent1);

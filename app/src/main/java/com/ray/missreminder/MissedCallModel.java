@@ -8,11 +8,29 @@ public class MissedCallModel {
     private int id;
     private String number;
     private String name;
+    private String time;
+
+    public MissedCallModel(){}
 
     public MissedCallModel(int id, String number, String name){
         this.setId(id);
         this.setNumber(number);
         this.setName(name);
+    }
+
+    public MissedCallModel(int id, String number, String name, String time){
+        this.setId(id);
+        this.setName(name);
+        this.setNumber(number);
+        this.setTime(time);
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getName() {

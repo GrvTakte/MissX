@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,11 +52,11 @@ public class NotesAdapter extends ArrayAdapter<NotesModel>{
         view = inflater.inflate(resourceId,null);
 
         TextView number, notes, name;
-        ImageView remove;
+        ImageButton remove;
 
         number = (TextView) view.findViewById(R.id.notes_layout_number);
         notes = (TextView) view.findViewById(R.id.notes_layout_save_text);
-        remove = (ImageView) view.findViewById(R.id.notes_layout_remove);
+        remove = (ImageButton) view.findViewById(R.id.notes_layout_remove);
         name = (TextView) view.findViewById(R.id.notes_layout_name);
 
         number.setText(list.get(position).getNumber());

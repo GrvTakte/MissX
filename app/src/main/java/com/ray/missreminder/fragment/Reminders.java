@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.ray.missreminder.MissedCallModel;
@@ -150,12 +149,13 @@ public class Reminders extends Fragment {
                     String number;
                     int id;
                     String name;
-
+                    String time;
                     number = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_NUMBER));
                     id = cursor.getInt(cursor.getColumnIndex("id"));
                     name = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_NAME));
+                    time = cursor.getString(cursor.getColumnIndex(DbContract.INCOMING_TIME));
                     // Log.d("database List:",""+id+" "+number);
-                    list.add(new MissedCallModel(id, number, name));
+                    list.add(new MissedCallModel(id, number, name, time));
                 }
                 listView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
