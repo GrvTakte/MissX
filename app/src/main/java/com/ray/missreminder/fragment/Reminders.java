@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.ray.missreminder.MissedCallModel;
 import com.ray.missreminder.R;
@@ -78,7 +77,6 @@ public class Reminders extends Fragment {
                 readFromDb();
                 adapter.notifyDataSetChanged();
                 listView.getFooterViewsCount();
-                Toast.makeText(context, "update receiver called", Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -145,6 +143,9 @@ public class Reminders extends Fragment {
         try {
             if (cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
+                    //it will read data from database and display in List view.
+                    //We can also use cursor adapter to bind data with list view so if you are getting data
+                    //from database so it is good to use cursor adapter.
                     String number;
                     int id;
                     String name;
@@ -163,7 +164,6 @@ public class Reminders extends Fragment {
         }finally {
             cursor.close();
             dbHelper.close();
-            database.close();
         }
     }
 

@@ -35,7 +35,7 @@ public class IgnoreDbHelper extends SQLiteOpenHelper {
 
     public boolean hasNumber(String number, SQLiteDatabase db){
         db = this.getWritableDatabase();
-        String checkNumber = "SELECT * FROM "+TABLE_NAME+" WHERE "+DbContract.BLOCKED_NUMBER+"="+number;
+        String checkNumber = "SELECT "+DbContract.BLOCKED_NUMBER +" FROM "+TABLE_NAME+" WHERE "+DbContract.BLOCKED_NUMBER+"="+number;
         Cursor cursor = db.rawQuery(checkNumber,null);
 
         if (cursor.getCount() > 0){

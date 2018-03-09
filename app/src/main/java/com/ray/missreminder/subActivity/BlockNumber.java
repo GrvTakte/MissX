@@ -1,5 +1,9 @@
 package com.ray.missreminder.subActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -8,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.ray.missreminder.R;
 import com.ray.missreminder.adapter.IgnoreAdapter;
@@ -31,6 +36,8 @@ public class BlockNumber extends AppCompatActivity {
     Button clear_ignore_list;
     IgnoreAdapter adapter;
 
+    BroadcastReceiver refresh_ignore_list_receiver;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,17 @@ public class BlockNumber extends AppCompatActivity {
         adapter = new IgnoreAdapter(getApplicationContext(),R.layout.block_number_list_layout,list);
         listView.setAdapter(adapter);
         getDataFromDB();
+
+        refresh_ignore_list_receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getDataFromDB();
+                adapter.notifyDataSetChanged();
+                listView.getFooterViewsCount();
+            }
+        };
+
+        getApplicationContext().registerReceiver(refresh_ignore_list_receiver, new IntentFilter(DbContract.REFRESH_IGNORE_LIST));
     }
 
     @Override
@@ -72,18 +90,21 @@ public class BlockNumber extends AppCompatActivity {
 
         if (cursor.getCount() > 0){
             while (cursor.moveToNext()){
-
                 String number = cursor.getString(cursor.getColumnIndex(DbContract.BLOCKED_NUMBER));
                 String name = cursor.getString(cursor.getColumnIndex(DbContract.BLOCKED_NAME));
-
                 list.add(new IgnoreModel(number,name));
             }
-
             cursor.close();
             helper.close();
             database.close();
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        getApplicationContext().unregisterReceiver(refresh_ignore_list_receiver);
     }
 }

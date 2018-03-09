@@ -37,7 +37,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public void saveNumber(String number, String name, SQLiteDatabase db){
         ContentValues values = new ContentValues();
-        values.put(DbContract.INCOMING_NUMBER,number);
+        String formatedNumber = number.replaceAll("[-+.:,]","");
+        values.put(DbContract.INCOMING_NUMBER,formatedNumber);
         values.put(DbContract.INCOMING_NAME,name);
         db.insert(DbContract.TABLE_NAME,null,values);
     }

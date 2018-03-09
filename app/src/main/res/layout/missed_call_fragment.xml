@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ef5252">
+    android:background="#20ef5252">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -31,11 +31,12 @@
         android:id="@+id/about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Miss X"
+        android:layout_marginTop="80dp"
+        android:fontFamily="sans-serif"
         android:gravity="center_horizontal"
-        android:textSize="50dp"
-        android:textColor="#fff"
-        android:layout_marginTop="80dp"/>
+        android:text="Miss X"
+        android:textColor="#000"
+        android:textSize="50dp" />
 
     <TextView
         android:id="@+id/version"
@@ -46,7 +47,7 @@
         android:textSize="30dp"
         android:layout_below="@+id/about"
         android:gravity="center_horizontal"
-        android:textColor="#fff"/>
+        android:textColor="#000"/>
 
     <TextView
         android:id="@+id/description"
@@ -56,7 +57,7 @@
         android:text="This application is about missed calls. It reminds you of your missed calls at regular interval, set by you."
         android:layout_marginTop="20dp"
         android:textSize="20dp"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:gravity="center_horizontal"/>
 
     <TextView
@@ -65,7 +66,7 @@
         android:layout_height="wrap_content"
         android:text="Feedback"
         android:textSize="20dp"
-        android:textColor="#fff"
+        android:textColor="#000"
         android:layout_below="@+id/description"
         android:gravity="center_horizontal"
         android:layout_marginTop="30dp"

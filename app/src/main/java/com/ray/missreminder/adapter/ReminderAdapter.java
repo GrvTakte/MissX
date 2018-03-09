@@ -51,7 +51,7 @@ public class ReminderAdapter extends ArrayAdapter<MissedCallModel>{
         TextView name = (TextView) view.findViewById(R.id.reminder_layout_name);
         Button removeButton = (Button) view.findViewById(R.id.remove_reminder);
         Button ignoreButton = (Button) view.findViewById(R.id.ignore_reminder);
-        number.setText(list.get(position).getNumber());
+        number.setText("+"+list.get(position).getNumber());
         name.setText(list.get(position).getName());
 
 
