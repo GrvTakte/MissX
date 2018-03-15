@@ -28,6 +28,8 @@
                 android:layout_height="wrap_content"
                 android:text="clear"
                 android:layout_alignParentRight="true"
+                android:backgroundTint="#fff"
+                android:textColor="@color/colorPrimary"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>

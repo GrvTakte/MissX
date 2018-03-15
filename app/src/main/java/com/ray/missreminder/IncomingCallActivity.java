@@ -39,7 +39,6 @@ public class IncomingCallActivity extends Activity {
         });
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
-
             int orgX, orgY;
             int offsetX, offsetY;
 

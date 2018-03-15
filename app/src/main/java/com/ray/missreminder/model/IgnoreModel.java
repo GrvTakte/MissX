@@ -41,3 +41,9 @@ public class IgnoreModel {
         this.number = number;
     }
 }
+
+/*
+    Future task:-
+    1) Remove number from reminder list if user call to the number which is already present in reminder list(on Successful received call only).
+    2) and also display reminder/ignore dialog box to the user when call disconnected.
+*/

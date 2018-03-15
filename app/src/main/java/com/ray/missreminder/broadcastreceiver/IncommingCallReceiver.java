@@ -133,16 +133,6 @@ public class IncommingCallReceiver extends BroadcastReceiver {
 
                     Log.d("missX", "onReceived");
 
-                /*
-                String name = getName(callerPhoneNumber,mContext);
-                String number = callerPhoneNumber;
-                DbHelper dbHelper = new DbHelper(mContext);
-                SQLiteDatabase database = dbHelper.getWritableDatabase();
-                dbHelper.saveNumber(number, name, database);
-                dbHelper.close();
-                Intent intent1 = new Intent(DbContract.UPDATE_UI_FILTER);
-                mContext.sendBroadcast(intent1);
-                */
                     isTalking = false;
                 } else {
                 /*
@@ -201,6 +191,11 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                         Log.d("missX:", "EXTRA_STATE_IDLE:else: callReceived==true");
 
                         if (ring == true) {
+
+                            // THis part of code gets called when user got a missed call, In this part programmer checks whether missed call number
+                            // present in ignore/block list or not if present then it won't add the number to the database otherwise it will add
+                            // missed number to the database and display notification to the user.
+
                             IgnoreDbHelper helper = new IgnoreDbHelper(mContext);
                             SQLiteDatabase db = helper.getWritableDatabase();
                             boolean isPresentInIgnoreList = helper.hasNumber(intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER),db);
@@ -251,6 +246,9 @@ public class IncommingCallReceiver extends BroadcastReceiver {
         }
     }
 
+
+    // this method fetch name of the caller from content provider and store it in db if there is new number calling then it display name as
+    // unknown number.
     private String getName(String number, Context context){
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI,Uri.encode(number));
         String[] projection = new String[]{ContactsContract.PhoneLookup.DISPLAY_NAME};
@@ -263,10 +261,10 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                 contactName = cursor.getString(0);
                 return contactName;
             }else {
-                return "New Contact";
+                return "Unknown Number";
             }
         }else {
-            return "New Contact";
+            return "Unknown Number";
         }
     }
 
@@ -278,6 +276,7 @@ public class IncommingCallReceiver extends BroadcastReceiver {
         return currentTime;
     }
 
+    //This method return string with current date in MM/dd/yyyy format.
     private String getCurrentDate(){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat timeFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -286,15 +285,15 @@ public class IncommingCallReceiver extends BroadcastReceiver {
     }
 
     private void getMissedCalls(Context context) throws SecurityException{
+        /*
+        This method gets called when user is on calll and there is missed call to user so this method dictate this kind of missed calls and
+        store it in reminder list
+         */
+
         String PATH = "content://call_log/calls";
         // Took start time and date when call received from shared pref
         String callStartTime = startTimePref.getString("callStartTime",null);
         long longValue = Long.parseLong(callStartTime);
-
-        //convert long to date
-        //Date date5 = new Date(longValue);
-       // Log.d("missX", "LongValue"+longValue);
-       // Log.d("missX", "startTime"+date5);
 
         //declare which field we want to fetch
         String[] projection = new String[] { CallLog.Calls.CACHED_NAME,
