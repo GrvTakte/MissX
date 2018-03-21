@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-
 import com.ray.missreminder.MissedCallModel;
 import com.ray.missreminder.R;
 import com.ray.missreminder.adapter.ReminderAdapter;

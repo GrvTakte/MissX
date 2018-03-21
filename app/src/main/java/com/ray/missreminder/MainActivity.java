@@ -53,9 +53,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mainActivity = this;
-
         checkPermissions();
-
         setContentView(R.layout.activity_main);
         copyOnCreate();
     }

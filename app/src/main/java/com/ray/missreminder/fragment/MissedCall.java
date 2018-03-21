@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ray.missreminder.R;
 
@@ -22,16 +23,19 @@ public class MissedCall extends Fragment {
 
     TextView feedback;
     ImageView whatsapp_share;
+    ImageView facebook_share;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View misssedCallView = inflater.inflate(R.layout.missed_call_fragment, container, false);
+        View missedCallView = inflater.inflate(R.layout.missed_call_fragment, container, false);
 
-        feedback = (TextView) misssedCallView.findViewById(R.id.feedback_text);
+        feedback = (TextView) missedCallView.findViewById(R.id.feedback_text);
         feedback.setPaintFlags(feedback.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        whatsapp_share = (ImageView) misssedCallView.findViewById(R.id.share_whatsapp);
+        whatsapp_share = (ImageView) missedCallView.findViewById(R.id.share_whatsapp);
+        facebook_share = (ImageView) missedCallView.findViewById(R.id.share_facebook);
+
 
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +62,13 @@ public class MissedCall extends Fragment {
             }
         });
 
-        return misssedCallView;
+        facebook_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Coming soon...", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return missedCallView;
     }
 }
