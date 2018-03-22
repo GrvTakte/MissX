@@ -22,8 +22,6 @@ import com.ray.missreminder.R;
 public class MissedCall extends Fragment {
 
     TextView feedback;
-    ImageView whatsapp_share;
-    ImageView facebook_share;
 
     @Nullable
     @Override
@@ -33,9 +31,6 @@ public class MissedCall extends Fragment {
 
         feedback = (TextView) missedCallView.findViewById(R.id.feedback_text);
         feedback.setPaintFlags(feedback.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-        whatsapp_share = (ImageView) missedCallView.findViewById(R.id.share_whatsapp);
-        facebook_share = (ImageView) missedCallView.findViewById(R.id.share_facebook);
-
 
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,27 +40,6 @@ public class MissedCall extends Fragment {
                 rateIntent.setAction(Intent.ACTION_VIEW);
                 rateIntent.setData(Uri.parse(url));
                 startActivity(rateIntent);
-            }
-        });
-
-        whatsapp_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String shareText = "*MissX - Call reminder app* \n\n This reminds you of your missed calls at a regular interval. "+
-                        "The interval can be set according to your needs. Optionally one can choose for displaying an onscreen option"+
-                        " to remind for a received or called number. \n\n INSTALL NOW: \n https://play.google.com/store/apps/details?id=com.ray.missreminder " ;
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.setPackage("com.whatsapp");
-                intent.putExtra(Intent.EXTRA_TEXT,shareText);
-                startActivity(intent);
-            }
-        });
-
-        facebook_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Coming soon...", Toast.LENGTH_SHORT).show();
             }
         });
 
