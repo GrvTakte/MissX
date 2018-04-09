@@ -75,7 +75,7 @@ public class IncommingCallReceiver extends BroadcastReceiver {
 
             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 
-            // If phone state "Rininging"
+            // If phone state "Ringing"
             if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
 
                 Log.d("missX: ", " if:EXTRA_STATE_RINGING ");

@@ -45,6 +45,8 @@ public class NotifyUser extends Service {
     }
 
     public NotifyUser(){
+        //This is the default constructor
+
     }
 
     @Override

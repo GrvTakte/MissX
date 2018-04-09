@@ -50,6 +50,10 @@ public class MyCustomDialog extends Activity {
 
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            lp.dimAmount=0.0f;
+            getWindow().setAttributes(lp);
             setContentView(R.layout.incoming_call_layout);
             initializeContent();
 

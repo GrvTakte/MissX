@@ -79,6 +79,7 @@ public class Notes extends Fragment {
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // use observable desig patter here so the UI and data sync dynamically.
                 DbNotesHelper helper = new DbNotesHelper(getContext());
                 SQLiteDatabase database = helper.getWritableDatabase();
                 helper.clearDatabase(database);
