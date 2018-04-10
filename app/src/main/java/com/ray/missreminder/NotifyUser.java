@@ -71,7 +71,7 @@ public class NotifyUser extends Service {
             mTimer.scheduleAtFixedRate(timerTask, 1000, INTERVAL*addinterval);// schedule task
             Log.d("Service","New timer object created");
         }            //Testing interval
-            //mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL);// schedule task
+        //mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, INTERVAL);// schedule task
     }
 
     public boolean dbStatus(){
@@ -110,6 +110,20 @@ public class NotifyUser extends Service {
         super.onStartCommand(intent,flags,startId);
         //startTimer();
         Log.d("Service","onStartCommand() Called");
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
+                Intent intent1 = new Intent(getApplicationContext(),CheckedReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent1,0);
+
+                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime()+AlarmManager.INTERVAL_HALF_HOUR, AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
+            }
+       };
+
+        Thread t = new Thread(runnable);
+        t.start();
         return START_STICKY;
     }
 
