@@ -53,8 +53,5 @@
 
         </receiver>
 
-        <receiver android:name=".CheckedReceiver" android:enabled="true">
-
-        </receiver>
     </application>
 </manifest>

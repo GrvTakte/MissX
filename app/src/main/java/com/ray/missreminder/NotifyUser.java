@@ -18,6 +18,7 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.ray.missreminder.database.DbHelper;
 
@@ -45,8 +46,6 @@ public class NotifyUser extends Service {
     }
 
     public NotifyUser(){
-        //This is the default constructor
-
     }
 
     @Override
@@ -110,20 +109,6 @@ public class NotifyUser extends Service {
         super.onStartCommand(intent,flags,startId);
         //startTimer();
         Log.d("Service","onStartCommand() Called");
-
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                AlarmManager alarmManager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
-                Intent intent1 = new Intent(getApplicationContext(),CheckedReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),0,intent1,0);
-
-                alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime()+AlarmManager.INTERVAL_HALF_HOUR, AlarmManager.INTERVAL_HALF_HOUR, pendingIntent);
-            }
-       };
-
-        Thread t = new Thread(runnable);
-        t.start();
         return START_STICKY;
     }
 
@@ -178,6 +163,7 @@ public class NotifyUser extends Service {
                     if (dbStatus()) {
                         loadNotification();
                     }else {
+                        Toast.makeText(NotifyUser.this, "Load notification failed", Toast.LENGTH_SHORT).show();
                     }
 
                 }

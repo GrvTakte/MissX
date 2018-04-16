@@ -24,6 +24,7 @@ public class DbNotesHelper extends SQLiteOpenHelper {
 
     public DbNotesHelper(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
+
     }
 
     @Override
