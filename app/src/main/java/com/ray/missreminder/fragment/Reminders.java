@@ -1,5 +1,7 @@
 package com.ray.missreminder.fragment;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +21,13 @@ import android.widget.ListView;
 import com.ray.missreminder.MissedCallModel;
 import com.ray.missreminder.R;
 import com.ray.missreminder.adapter.ReminderAdapter;
+import com.ray.missreminder.broadcastreceiver.ReceiverAlarm;
 import com.ray.missreminder.database.DbContract;
 import com.ray.missreminder.database.DbHelper;
 import com.ray.missreminder.subActivity.Setting;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -105,6 +110,14 @@ public class Reminders extends Fragment {
                 readFromDb();
                 adapter.notifyDataSetChanged();
                 listView.getFooterViewsCount();
+
+                AlarmManager manager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+                Intent intent1 = new Intent(getContext(),ReceiverAlarm.class);
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(getContext(),1001,intent1,0);
+
+                manager.cancel(alarmIntent);
+
+                Log.d("AlarmManager","Alarm Manager Cancel");
             }
         });
 

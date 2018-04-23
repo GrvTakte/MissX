@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     MenuItem menuItem;
     Intent mServiceIntent;
-    private NotifyUser notifyUser;
+    //private NotifyUser notifyUser;
     Context context;
 
 
@@ -99,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
     private void copyOnCreate(){
         //Start never ending service
         context = this;
-        notifyUser = new NotifyUser(getContext());
+        //notifyUser = new NotifyUser(getContext());
 
-        mServiceIntent = new Intent(getContext(),notifyUser.getClass());
+        /*mServiceIntent = new Intent(getContext(),notifyUser.getClass());
         if (!isServiceRunning(notifyUser.getClass())){
             startService(mServiceIntent);
-        }
+        }*/
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation_view);
         pager = (ViewPager) findViewById(R.id.viewPager);
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        stopService(mServiceIntent);
+       // stopService(mServiceIntent);
         super.onDestroy();
     }
 

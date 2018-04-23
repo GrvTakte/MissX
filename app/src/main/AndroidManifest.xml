@@ -34,13 +34,17 @@
 
         <activity android:name=".subActivity.BlockNumber" android:theme="@style/AppTheme"/>
 
-        <service android:name="com.ray.missreminder.NotifyUser" android:enabled="true"/>
-
         <receiver android:name="com.ray.missreminder.broadcastreceiver.CallReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PHONE_STATE" />
             </intent-filter>
         </receiver>
+
+        <service android:name=".service.ServiceAlarm"
+            android:enabled="true">
+        </service>
+
+        <receiver android:name=".broadcastreceiver.ReceiverAlarm"/>
 
         <receiver android:name="com.ray.missreminder.broadcastreceiver.RestartServiceBroadcastReceiver"
             android:enabled="true"

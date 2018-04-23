@@ -1,7 +1,11 @@
 package com.ray.missreminder.subActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +18,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ray.missreminder.R;
+import com.ray.missreminder.broadcastreceiver.ReceiverAlarm;
+import com.ray.missreminder.database.DbHelper;
+import com.ray.missreminder.service.ServiceAlarm;
+
+import java.util.Calendar;
 
 /**
  * Created by Gaurav on 2/27/2018.
@@ -236,8 +245,40 @@ public class Setting extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int interval = preferences.getInt("interval",5);
+                setAlarmInterval(interval);
                 Setting.this.finish();
             }
         });
+    }
+
+    private void setAlarmInterval(int minute){
+        boolean alarmUp = (PendingIntent.getBroadcast(getApplicationContext(),1001
+                ,new Intent(getApplicationContext(), ReceiverAlarm.class),PendingIntent.FLAG_NO_CREATE)!=null);
+
+        if (checkDatabaseRecord(getApplicationContext())) {
+            Calendar calendar = Calendar.getInstance();
+            if (alarmUp) {
+                //Alarm active
+                AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+                Intent intent1 = new Intent(getApplicationContext(), ReceiverAlarm.class);
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 1001, intent1, 0);
+                manager.cancel(alarmIntent);
+
+                manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*minute, alarmIntent);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), ServiceAlarm.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 1001, intent, 0);
+                AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(ALARM_SERVICE);
+                manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*minute, pendingIntent);
+            }
+        }
+    }
+
+
+    private boolean checkDatabaseRecord(Context context){
+        DbHelper helper = new DbHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        return helper.dbStatus(db);
     }
 }

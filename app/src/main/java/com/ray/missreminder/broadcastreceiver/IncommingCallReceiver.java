@@ -1,5 +1,7 @@
 package com.ray.missreminder.broadcastreceiver;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -208,6 +210,20 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                                 SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
                                 String time = format.format(date);
 
+                                if (!checkDatabaseRecord(mContext)){
+                                    AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                                    Intent intent1 = new Intent(mContext,ReceiverAlarm.class);
+                                    PendingIntent alarmIntent = PendingIntent.getBroadcast(mContext,1001,intent1,0);
+
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.setTimeInMillis(System.currentTimeMillis());
+
+                                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*5,alarmIntent);
+                                    Log.d("MissX AlarmManager","Alarm Manager registered");
+                                }else {
+                                    Log.d("MissX AlarmManager","Alarm manager not registered");
+                                }
+
                                 Log.d("missX:", "if: ring==true");
                                 String number = intent.getExtras().getString(TelephonyManager.EXTRA_INCOMING_NUMBER);
                                 String name = getName(number, mContext);
@@ -377,6 +393,12 @@ public class IncommingCallReceiver extends BroadcastReceiver {
             helper.close();
             return false;
         }
+    }
+
+    private boolean checkDatabaseRecord(Context context){
+        DbHelper helper = new DbHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        return helper.dbStatus(db);
     }
 
     protected void onIncomingCallStarted(Context ctx, String number){}
