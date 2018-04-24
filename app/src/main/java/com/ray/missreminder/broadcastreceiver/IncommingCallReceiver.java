@@ -210,7 +210,10 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                                 SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
                                 String time = format.format(date);
 
-                                if (!checkDatabaseRecord(mContext)){
+                                boolean alarmUp = (PendingIntent.getBroadcast(mContext,1001
+                                        ,new Intent(mContext, ReceiverAlarm.class),PendingIntent.FLAG_NO_CREATE)!=null);
+
+                                if (!alarmUp){
                                     AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
                                     Intent intent1 = new Intent(mContext,ReceiverAlarm.class);
                                     PendingIntent alarmIntent = PendingIntent.getBroadcast(mContext,1001,intent1,0);
@@ -219,9 +222,9 @@ public class IncommingCallReceiver extends BroadcastReceiver {
                                     calendar.setTimeInMillis(System.currentTimeMillis());
 
                                     alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*5,alarmIntent);
-                                    Log.d("MissX AlarmManager","Alarm Manager registered");
+                                    Log.d("MissX AlarmManager","New Alarm Manager registered");
                                 }else {
-                                    Log.d("MissX AlarmManager","Alarm manager not registered");
+                                    Log.d("MissX AlarmManager","Alarm manager already registered");
                                 }
 
                                 Log.d("missX:", "if: ring==true");

@@ -1,6 +1,8 @@
 package com.ray.missreminder;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,11 +19,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.ray.missreminder.broadcastreceiver.ReceiverAlarm;
 import com.ray.missreminder.database.DbContract;
 import com.ray.missreminder.database.DbHelper;
 import com.ray.missreminder.database.DbNotesHelper;
+import com.ray.missreminder.service.ServiceAlarm;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -84,8 +89,11 @@ public class MyCustomDialog extends Activity {
                     helper.saveNumber(phone_no, name, time,database);
                     helper.close();
 
+                    startNotification();
+                    Log.d("MissX","startNotification() method called");
                     Intent intent1 = new Intent(DbContract.REFRESH_OUTGOING_LIST);
                     getApplicationContext().sendBroadcast(intent1);
+
 
                     if (isNotesShow){
                         String notes = notesEditText.getText().toString();
@@ -104,11 +112,9 @@ public class MyCustomDialog extends Activity {
                     }else {
                         Log.d("Notes","Notes not added");
                     }
-
                     MyCustomDialog.this.finish();
                 }
             });
-
 
             if (isNotesShow){
                 notesEditText.setVisibility(View.VISIBLE);
@@ -149,6 +155,28 @@ public class MyCustomDialog extends Activity {
         }else {
             return "New Contact";
         }
+    }
+
+    private void startNotification(){
+        SharedPreferences preferences = this.getSharedPreferences("notificationSetting",0);
+        int minute = preferences.getInt("interval",5);
+        boolean alarmUp = (PendingIntent.getBroadcast(getApplicationContext(),1001
+                ,new Intent(getApplicationContext(), ReceiverAlarm.class),PendingIntent.FLAG_NO_CREATE)!=null);
+
+            if (alarmUp) {
+                //Alarm active
+                Log.d("MissX","Alarm already registered");
+            } else {
+                AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+                Intent intent1 = new Intent(this,ReceiverAlarm.class);
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(this,1001,intent1,0);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*minute,alarmIntent);
+                Log.d("MissX AlarmManager","New Alarm Manager registered");
+            }
     }
 
     private void initializeContent()

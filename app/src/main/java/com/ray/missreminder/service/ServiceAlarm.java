@@ -31,12 +31,12 @@ public class ServiceAlarm extends Service {
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-        notificationBuilder.setContentTitle("Hello Alarm Ringing");
+        notificationBuilder.setContentTitle("MissX");
         notificationBuilder.setSmallIcon(R.mipmap.logo);
         notificationBuilder.setVibrate(new long[]{1000,1000,1000,1000,1000});
         notificationBuilder.setSound(uri);
         notificationBuilder.setLights(Color.YELLOW,3000,3000);
-        notificationBuilder.setContentText("Ready For Work");
+        notificationBuilder.setContentText("You have missed calls please tap to view list.");
 
         notificationBuilder.setContentIntent(pendingIntent);
         notificationManager.notify(0,notificationBuilder.build());
