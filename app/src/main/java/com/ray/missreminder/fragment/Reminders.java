@@ -95,8 +95,6 @@ public class Reminders extends Fragment {
         return remindersView;
     }
 
-
-
     @Override
     public void onStart() {
         super.onStart();

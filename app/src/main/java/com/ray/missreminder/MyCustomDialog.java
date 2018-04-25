@@ -146,7 +146,7 @@ public class MyCustomDialog extends Activity {
         Cursor cursor = context.getContentResolver().query(uri,projection,null,null,null);
 
         if (cursor.getCount()>0){
-            if (cursor.moveToNext()){
+             if (cursor.moveToNext()){
                 contactName = cursor.getString(0);
                 return contactName;
             }else {
@@ -159,24 +159,34 @@ public class MyCustomDialog extends Activity {
 
     private void startNotification(){
         SharedPreferences preferences = this.getSharedPreferences("notificationSetting",0);
+
         int minute = preferences.getInt("interval",5);
+
         boolean alarmUp = (PendingIntent.getBroadcast(getApplicationContext(),1001
                 ,new Intent(getApplicationContext(), ReceiverAlarm.class),PendingIntent.FLAG_NO_CREATE)!=null);
 
-            if (alarmUp) {
-                //Alarm active
-                Log.d("MissX","Alarm already registered");
-            } else {
-                AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-                Intent intent1 = new Intent(this,ReceiverAlarm.class);
-                PendingIntent alarmIntent = PendingIntent.getBroadcast(this,1001,intent1,0);
+        Calendar calendar = Calendar.getInstance();
 
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
+        if (alarmUp) {
+            //Alarm active
+            AlarmManager manager = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+            Intent intent1 = new Intent(getApplicationContext(), ReceiverAlarm.class);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), 1001, intent1, 0);
+            manager.cancel(alarmIntent);
 
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*minute,alarmIntent);
-                Log.d("MissX AlarmManager","New Alarm Manager registered");
-            }
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*minute, alarmIntent);
+
+            Log.d("MissX","Alarm already registered");
+        } else {
+            AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+            Intent intent1 = new Intent(this,ReceiverAlarm.class);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(this,1001,intent1,0);
+
+            calendar.setTimeInMillis(System.currentTimeMillis());
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1000*60*minute,alarmIntent);
+            Log.d("MissX AlarmManager","New Alarm Manager registered");
+        }
     }
 
     private void initializeContent()

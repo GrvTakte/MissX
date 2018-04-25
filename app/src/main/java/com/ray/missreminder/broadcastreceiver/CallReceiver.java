@@ -20,6 +20,7 @@ public class CallReceiver extends IncommingCallReceiver {
         context =   ctx;
 
         final Intent intent = new Intent(context, MyCustomDialog.class);
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("phone_no",number);
